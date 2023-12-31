@@ -30,12 +30,15 @@ const Home = () => {
       setLoading(true);
 
       try {
-        const response = await fetch("http://localhost:8080/api/v1/post", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+        const response = await fetch(
+          "https://nevercb-imggen.onrender.com/api/v1/post",
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
         if (response.ok) {
           const result = await response.json();
 
@@ -80,15 +83,15 @@ const Home = () => {
             AI Image Community
           </h1>
           <p
-            className="mt-2 text-[#666e75] text-[14px]
+            className="mt-2 text-[#666e75] text-[12px]
           max-w[500px]"
           >
             {" "}
-            一个可自定义的AI生成图片社区(driven by openai)，
-            点击右上角Create创建您的第一张图片。
+            一个可自定义的AI生成图片社区(driven by openAI)<br></br>
+            点击右上角Create创建您的第一张图片
           </p>
         </div>
-        <div className="mt-16">
+        <div className="mt-11">
           <FormField
             labelName="Search by keywords"
             type="text"
