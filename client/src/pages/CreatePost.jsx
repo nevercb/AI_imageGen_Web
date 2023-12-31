@@ -36,7 +36,29 @@ const CreatePost = () => {
       alert("Please enter a prompt");
     }
   };
-  const handleSubmit = () => {};
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (form.prompt && form.photo) {
+      setLoading(true);
+      try {
+        const response = await fetch("http://localhost:8080/api/v1/post", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(form),
+        });
+        await response.json();
+        navigate("/");
+      } catch (err) {
+        alert(err);
+      } finally {
+        setLoading(false);
+      }
+    } else {
+      alert("Please enter a prompt and a generated photo");
+    }
+  };
   const handleChange = (e) => {
     console.log(e);
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -48,30 +70,31 @@ const CreatePost = () => {
   return (
     <section className="max-w-7x1 mx-auto">
       <div>
-        <h1 className="font-extrabold text-[#2222328] text-[32px]">Create</h1>
+        <h1 className="font-serif font-extrabold text-[#2222328] text-[32px]">
+          Create
+        </h1>
         <p
           className="mt-2 text-[#666e75] text-[14px]
           max-w[500px]"
         >
-          Create Imaginative and visually stunning images through DALL-E AI and
-          share them with community
+          输入您的用户名和指令后，点击generate按钮生成一张AI图片，可点击share按钮将其分享至社区或再次生成
         </p>
       </div>
       <form className="mt-16 max-w-3x1" onSubmit={handleSubmit}>
         <div className="flex flex-col gap-5">
           <FormField
-            labelName="Your name"
+            labelName="Your name (用户名) "
             type="text"
             name="name"
-            placeholder="LiJiajun"
+            placeholder="ljj"
             value={form.name}
             handleChange={handleChange}
           />
           <FormField
-            labelName="Prompt"
+            labelName="Prompt (指令)"
             type="text"
             name="prompt"
-            placeholder="A plush toy robot sitting against a yellow wall"
+            placeholder="一张美丽的江南景观图"
             value={form.prompt}
             handleChange={handleChange}
             isSurpriseMe
@@ -88,7 +111,10 @@ const CreatePost = () => {
           h-64
           flex
           justify-center
-          items-center"
+          items-center
+          shadow-lg
+          shadow-cyan-900
+          "
           >
             {form.photo ? (
               <img
@@ -120,28 +146,32 @@ const CreatePost = () => {
           <button
             type="button"
             onClick={generateImage}
-            className="text-white bg-green-700 font-medium
-          rounded-md text-sm w-full sm:w-auto px-5 py-2.5
-          text-center"
+            className="text-white bg-lime-500 font-medium
+          rounded-md text-sm w-full sm:w-auto px-4 py-2
+          text-center my-3 shadow-lime-300 shadow-md
+          hover:bg-lime-300"
           >
             {generatingImg ? "Generating..." : "Generate"}
           </button>
         </div>
 
-        <div className="mt-10">
-          <p className="mt-2 text-[#666e75] text-[14px]">
+        <div className="mt-3">
+          <p className="mt-2 font-serif text-[#666e75] text-[14px]">
             {" "}
-            Once you have created the image you want, you can share it with
-            others in the community
+            如果对图片不满意可以再次点击generate,
+            若您满意可选择将图片发布至社区公开。
           </p>
           <button
             type="submit"
-            className="mt-3 text-white bg-[#6469ff]
+            className="mt-3 text-white bg-teal-400
           font-medium rounded-md text-sm w-full
           sm:w-auto 
           px-5
           py-2.5
-          text-center"
+          text-center
+          hover:bg-teal-300
+          shadow-md
+          shadow-teal-200"
           >
             {loading ? "Sharing..." : "Share with the community"}
           </button>

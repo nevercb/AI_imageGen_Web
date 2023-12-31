@@ -17,7 +17,7 @@ const App = () => {
         <Link
           to="/create-post"
           className="font-inter font-bold 
-          bg-sky-500/50 text-white px-4 py-2 rounded-lg"
+          bg-teal-400/80 text-white px-4 py-2 rounded-lg"
         >
           Create
         </Link>
